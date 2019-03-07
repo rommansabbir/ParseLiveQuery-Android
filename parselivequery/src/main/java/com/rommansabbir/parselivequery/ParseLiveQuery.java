@@ -12,11 +12,10 @@ import com.parse.livequery.SubscriptionHandling;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class ParseLiveQueryListener {
+public class ParseLiveQuery {
     private static final String ERROR_MESSAGE = "Retrieved Object Empty";
     private Context context;
-    private static final String TAG = "ParseLiveQueryListener";
-    private ParseLiveQueryListenerInterface parseLiveQueryListenerInterface;
+    private ParseLiveQueryInterface parseLiveQueryInterface;
     private ParseLiveQueryClient parseLiveQueryClient;
     private SubscriptionHandling<ParseObject> subscriptionHandling;
 
@@ -24,12 +23,12 @@ public class ParseLiveQueryListener {
      * Get parent context through constructor.
      * @param context
      */
-    public ParseLiveQueryListener(Context context) {
+    public ParseLiveQuery(Context context) {
         this.context = context;
         /**
          * Instantiate interface
          */
-        parseLiveQueryListenerInterface = (ParseLiveQueryListenerInterface) context;
+        parseLiveQueryInterface = (ParseLiveQueryInterface) context;
         /**
          * Instantiate ParseLiveQueryClient = null
          */
@@ -72,13 +71,13 @@ public class ParseLiveQueryListener {
                                 /**
                                  * Notify interface if any data received from db
                                  */
-                                parseLiveQueryListenerInterface.onEventListenerSuccess(object);
+                                parseLiveQueryInterface.onEventListenerSuccess(object);
                             }
                             else {
                                 /**
                                  * Notify interface if any error occur
                                  */
-                                parseLiveQueryListenerInterface.onEventListenerFailure(ERROR_MESSAGE);
+                                parseLiveQueryInterface.onEventListenerFailure(ERROR_MESSAGE);
                             }
                         }
                     });
@@ -98,13 +97,13 @@ public class ParseLiveQueryListener {
                                 /**
                                  * Notify interface if any data received from db
                                  */
-                                parseLiveQueryListenerInterface.onEventListenerSuccess(object);
+                                parseLiveQueryInterface.onEventListenerSuccess(object);
                             }
                             else {
                                 /**
                                  * Notify interface if any error occur
                                  */
-                                parseLiveQueryListenerInterface.onEventListenerFailure(ERROR_MESSAGE);
+                                parseLiveQueryInterface.onEventListenerFailure(ERROR_MESSAGE);
                             }
                         }
                     });
@@ -123,7 +122,7 @@ public class ParseLiveQueryListener {
                             /**
                              * Notify interface if any data deleted from db
                              */
-                            parseLiveQueryListenerInterface.onEventListenerSuccess(object);
+                            parseLiveQueryInterface.onEventListenerSuccess(object);
                         }
 
                     });
@@ -136,7 +135,7 @@ public class ParseLiveQueryListener {
          */
         catch (URISyntaxException e) {
             e.printStackTrace();
-            parseLiveQueryListenerInterface.onEventListenerFailure(e.getMessage());
+            parseLiveQueryInterface.onEventListenerFailure(e.getMessage());
         }
     }
 
@@ -150,7 +149,7 @@ public class ParseLiveQueryListener {
     }
 
 
-    public interface ParseLiveQueryListenerInterface {
+    public interface ParseLiveQueryInterface {
         void onEventListenerSuccess(ParseObject retrievedObject);
         void onEventListenerFailure(String errorMessage);
     }
